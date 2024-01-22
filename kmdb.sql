@@ -116,7 +116,7 @@ DROP TABLE IF EXISTS roles;
 CREATE TABLE movies (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT,
-  year INTEGER
+  year INTEGER,
   rating TEXT,
   studio_id TEXT,
   role_id TEXT
@@ -135,8 +135,8 @@ CREATE TABLE actors (
 
 CREATE TABLE roles (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  actor_id TEXT,
-  movie_id TEXT
+  actor_id INTEGER,
+  movie_id INTEGER
 );
 
 -- Insert data into your database that reflects the sample data shown above
@@ -154,7 +154,8 @@ studio_id
     "PG-13",
     "Warner Bros."
 )
-(
+
+INSERT INTO movies (
 name,
 year,
 rating,
@@ -165,17 +166,6 @@ studio_id
     "PG-13",
     "Warner Bros."
 )
-(
-name,
-year,
-rating,
-studio_id
-) VALUES (
-    "The Dark Knight Rises",
-    2012,
-    "PG-13",
-    "Warner Bros."
-)
 
 INSERT INTO movies (
 name,
@@ -183,17 +173,105 @@ year,
 rating,
 studio_id
 ) VALUES (
-    "Batman Begins",
-    2005,
-    "PG-13",
+    "The Dark Knight Rises",
+    2012,
+    "PG-13"
     "Warner Bros."
 )
 
-Batman Begins          Christian Bale        Bruce Wayne
--- Batman Begins          Michael Caine         Alfred
--- Batman Begins          Liam Neeson           Ra's Al Ghul
--- Batman Begins          Katie Holmes          Rachel Dawes
--- Batman Begins          Gary Oldman           Commissioner Gordon
+INSERT INTO studios (
+name,
+) VALUES (
+    "Warner Bros."
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Christian"
+"Bale"
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Michael"
+"Caine"
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Liam"
+"Neeson"
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Katie"
+"Holmes"
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Gary"
+"Oldman"
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Heath"
+"Ledger"
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Aaron"
+"Eckhart"
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Maggie"
+"Gyllenhaal"
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Tom"
+"Hardy"
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Joseph"
+"Gordon-Levitt"
+)
+
+INSERT INTO actors (
+first_name,
+last_name,
+) VALUES (
+"Anne"
+"Hathaway"
+)
 
 -- Prints a header for the movies output
 .print "Movies"
@@ -202,6 +280,8 @@ Batman Begins          Christian Bale        Bruce Wayne
 
 -- The SQL statement for the movies output
 -- TODO!
+
+SELECT * FROM movies; 
 
 -- Prints a header for the cast output
 .print ""
@@ -212,3 +292,5 @@ Batman Begins          Christian Bale        Bruce Wayne
 
 -- The SQL statement for the cast output
 -- TODO!
+
+SELECT * FROM roles; 
