@@ -115,11 +115,10 @@ DROP TABLE IF EXISTS roles;
 
 CREATE TABLE movies (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT,
+  title TEXT,
   year INTEGER,
   rating TEXT,
-  studio_id TEXT,
-  role_id TEXT
+  studio_id TEXT
 );
 
 CREATE TABLE studios (
@@ -135,16 +134,23 @@ CREATE TABLE actors (
 
 CREATE TABLE roles (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  actor_id INTEGER,
-  movie_id INTEGER
+  character_name,
+  movie_id INTEGER,
+  actor_id INTEGER
 );
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
 
-INSERT INTO movies (
+INSERT INTO studios (
 name,
+) VALUES (
+    "Warner Bros."
+);
+
+INSERT INTO movies (
+title,
 year,
 rating,
 studio_id
@@ -152,11 +158,11 @@ studio_id
     "Batman Begins",
     2005,
     "PG-13",
-    "Warner Bros."
-)
+ (SELECT id FROM studios WHERE name = 'Warner Bros')
+ );
 
 INSERT INTO movies (
-name,
+title,
 year,
 rating,
 studio_id
@@ -164,11 +170,11 @@ studio_id
     "The Dark Knight",
     2008,
     "PG-13",
-    "Warner Bros."
-)
+  (SELECT id FROM studios WHERE name = 'Warner Bros')
+);
 
 INSERT INTO movies (
-name,
+title,
 year,
 rating,
 studio_id
@@ -176,14 +182,8 @@ studio_id
     "The Dark Knight Rises",
     2012,
     "PG-13"
-    "Warner Bros."
-)
-
-INSERT INTO studios (
-name,
-) VALUES (
-    "Warner Bros."
-)
+    (SELECT id FROM studios WHERE name = 'Warner Bros')
+);
 
 INSERT INTO actors (
 first_name,
@@ -192,86 +192,64 @@ last_name,
 "Christian"
 "Bale"
 )
-
-INSERT INTO actors (
-first_name,
-last_name,
-) VALUES (
+(
 "Michael"
 "Caine"
 )
-
-INSERT INTO actors (
-first_name,
-last_name,
-) VALUES (
+(
 "Liam"
 "Neeson"
 )
-
-INSERT INTO actors (
-first_name,
-last_name,
-) VALUES (
+(
 "Katie"
 "Holmes"
 )
-
-INSERT INTO actors (
-first_name,
-last_name,
-) VALUES (
+(
 "Gary"
 "Oldman"
 )
-
-INSERT INTO actors (
-first_name,
-last_name,
-) VALUES (
+(
 "Heath"
 "Ledger"
 )
-
-INSERT INTO actors (
-first_name,
-last_name,
-) VALUES (
+(
 "Aaron"
 "Eckhart"
 )
-
-INSERT INTO actors (
-first_name,
-last_name,
-) VALUES (
+(
 "Maggie"
 "Gyllenhaal"
 )
-
-INSERT INTO actors (
-first_name,
-last_name,
-) VALUES (
+(
 "Tom"
 "Hardy"
 )
-
-INSERT INTO actors (
-first_name,
-last_name,
-) VALUES (
+(
 "Joseph"
 "Gordon-Levitt"
 )
-
-INSERT INTO actors (
-first_name,
-last_name,
-) VALUES (
+(
 "Anne"
 "Hathaway"
-)
+);
+
+insert into roles (character_name, movie_id, actor_id)
+values
+  ('Bruce Wayne', (SELECT id FROM movies WHERE title = 'Batman Begins'), (SELECT id FROM actors WHERE first_name = 'Christian' AND last_name = 'Bale')),
+  ('Alfred', (SELECT id FROM movies WHERE title = 'Batman Begins'), (SELECT id FROM actors WHERE first_name = 'Michael' AND last_name = 'Caine')),
+  ('Rachel Dawes', (SELECT id FROM movies WHERE title = 'Batman Begins'), (SELECT id FROM actors WHERE first_name = 'Katie' AND last_name = 'Holmes')),
+  ('Commissioner Gordon', (SELECT id FROM movies WHERE title = 'Batman Begins'), (SELECT id FROM actors WHERE first_name = 'Gary' AND last_name = 'Oldman')),
+  ('Bruce Wayne', (SELECT id FROM movies WHERE title = 'The Dark Knight'), (SELECT id FROM actors WHERE first_name = 'Christian' AND last_name = 'Bale')),
+  ('Joker', (SELECT id FROM movies WHERE title = 'The Dark Knight'), (SELECT id FROM actors WHERE first_name = 'Heath' AND last_name = 'Ledger')),
+  ('Harvey Dent', (SELECT id FROM movies WHERE title = 'The Dark Knight'), (SELECT id FROM actors WHERE first_name = 'Aaron' AND last_name = 'Eckhart')),
+  ('Alfred', (SELECT id FROM movies WHERE title = 'The Dark Knight'), (SELECT id FROM actors WHERE first_name = 'Michael' AND last_name = 'Caine')),
+  ('Rachel Dawes', (SELECT id FROM movies WHERE title = 'The Dark Knight'), (SELECT id FROM actors WHERE first_name = 'Maggie' AND last_name = 'Gyllenhaal')),
+  ('Bruce Wayne', (SELECT id FROM movies WHERE title = 'The Dark Knight Rises'), (SELECT id FROM actors WHERE first_name = 'Christian' AND last_name = 'Bale')),
+  ('Commissioner Gordon', (SELECT id FROM movies WHERE title = 'The Dark Knight Rises'), (SELECT id FROM actors WHERE first_name = 'Gary' AND last_name = 'Oldman')),
+  ('Bane', (SELECT id FROM movies WHERE title = 'The Dark Knight Rises'), (SELECT id FROM actors WHERE first_name = 'Tom' AND last_name = 'Hardy')),
+  ('John Blake', (SELECT id FROM movies WHERE title = 'The Dark Knight Rises'), (SELECT id FROM actors WHERE first_name = 'Joseph'AND last_name = 'Gordon-Levitt')),
+  ('Selina Kyle', (SELECT id FROM movies WHERE title = 'The Dark Knight Rises'), (SELECT id FROM actors WHERE first_name = 'Anne' AND last_name = 'Hathaway')),
+  ('Ra''s Al Ghul', (SELECT id FROM movies WHERE title = 'Batman Begins'), (SELECT id FROM actors WHERE first_name = 'Liam' AND last_name = 'Neeson'));
 
 -- Prints a header for the movies output
 .print "Movies"
