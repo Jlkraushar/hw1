@@ -118,7 +118,7 @@ CREATE TABLE movies (
   title TEXT,
   year INTEGER,
   rating TEXT,
-  studio_id TEXT
+  studio_id INTEGER
 );
 
 CREATE TABLE studios (
@@ -134,7 +134,7 @@ CREATE TABLE actors (
 
 CREATE TABLE roles (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  character_name,
+  character_name TEXT,
   movie_id INTEGER,
   actor_id INTEGER
 );
@@ -144,7 +144,7 @@ CREATE TABLE roles (
 -- TODO!
 
 INSERT INTO studios (
-name,
+name
 ) VALUES (
     "Warner Bros."
 );
@@ -158,98 +158,86 @@ studio_id
     "Batman Begins",
     2005,
     "PG-13",
- (SELECT id FROM studios WHERE name = 'Warner Bros')
- );
-
-INSERT INTO movies (
-title,
-year,
-rating,
-studio_id
-) VALUES (
+    1
+ ),
+ (
     "The Dark Knight",
     2008,
     "PG-13",
-  (SELECT id FROM studios WHERE name = 'Warner Bros')
-);
-
-INSERT INTO movies (
-title,
-year,
-rating,
-studio_id
-) VALUES (
+    1
+),
+(
     "The Dark Knight Rises",
     2012,
-    "PG-13"
-    (SELECT id FROM studios WHERE name = 'Warner Bros')
+    "PG-13",
+    1
 );
 
 INSERT INTO actors (
 first_name,
-last_name,
+last_name
 ) VALUES (
-"Christian"
+"Christian",
 "Bale"
-)
+),
 (
-"Michael"
+"Michael",
 "Caine"
-)
+),
 (
-"Liam"
+"Liam",
 "Neeson"
-)
+),
 (
-"Katie"
+"Katie",
 "Holmes"
-)
+),
 (
-"Gary"
+"Gary",
 "Oldman"
-)
+),
 (
-"Heath"
+"Heath",
 "Ledger"
-)
+),
 (
-"Aaron"
+"Aaron",
 "Eckhart"
-)
+),
 (
-"Maggie"
+"Maggie", 
 "Gyllenhaal"
-)
+),
 (
-"Tom"
+"Tom",
 "Hardy"
-)
+),
 (
-"Joseph"
+"Joseph",
 "Gordon-Levitt"
-)
+),
 (
-"Anne"
+"Anne",
 "Hathaway"
 );
 
 insert into roles (character_name, movie_id, actor_id)
-values
-  ('Bruce Wayne', (SELECT id FROM movies WHERE title = 'Batman Begins'), (SELECT id FROM actors WHERE first_name = 'Christian' AND last_name = 'Bale')),
-  ('Alfred', (SELECT id FROM movies WHERE title = 'Batman Begins'), (SELECT id FROM actors WHERE first_name = 'Michael' AND last_name = 'Caine')),
-  ('Rachel Dawes', (SELECT id FROM movies WHERE title = 'Batman Begins'), (SELECT id FROM actors WHERE first_name = 'Katie' AND last_name = 'Holmes')),
-  ('Commissioner Gordon', (SELECT id FROM movies WHERE title = 'Batman Begins'), (SELECT id FROM actors WHERE first_name = 'Gary' AND last_name = 'Oldman')),
-  ('Bruce Wayne', (SELECT id FROM movies WHERE title = 'The Dark Knight'), (SELECT id FROM actors WHERE first_name = 'Christian' AND last_name = 'Bale')),
-  ('Joker', (SELECT id FROM movies WHERE title = 'The Dark Knight'), (SELECT id FROM actors WHERE first_name = 'Heath' AND last_name = 'Ledger')),
-  ('Harvey Dent', (SELECT id FROM movies WHERE title = 'The Dark Knight'), (SELECT id FROM actors WHERE first_name = 'Aaron' AND last_name = 'Eckhart')),
-  ('Alfred', (SELECT id FROM movies WHERE title = 'The Dark Knight'), (SELECT id FROM actors WHERE first_name = 'Michael' AND last_name = 'Caine')),
-  ('Rachel Dawes', (SELECT id FROM movies WHERE title = 'The Dark Knight'), (SELECT id FROM actors WHERE first_name = 'Maggie' AND last_name = 'Gyllenhaal')),
-  ('Bruce Wayne', (SELECT id FROM movies WHERE title = 'The Dark Knight Rises'), (SELECT id FROM actors WHERE first_name = 'Christian' AND last_name = 'Bale')),
-  ('Commissioner Gordon', (SELECT id FROM movies WHERE title = 'The Dark Knight Rises'), (SELECT id FROM actors WHERE first_name = 'Gary' AND last_name = 'Oldman')),
-  ('Bane', (SELECT id FROM movies WHERE title = 'The Dark Knight Rises'), (SELECT id FROM actors WHERE first_name = 'Tom' AND last_name = 'Hardy')),
-  ('John Blake', (SELECT id FROM movies WHERE title = 'The Dark Knight Rises'), (SELECT id FROM actors WHERE first_name = 'Joseph'AND last_name = 'Gordon-Levitt')),
-  ('Selina Kyle', (SELECT id FROM movies WHERE title = 'The Dark Knight Rises'), (SELECT id FROM actors WHERE first_name = 'Anne' AND last_name = 'Hathaway')),
-  ('Ra''s Al Ghul', (SELECT id FROM movies WHERE title = 'Batman Begins'), (SELECT id FROM actors WHERE first_name = 'Liam' AND last_name = 'Neeson'));
+VALUES
+  ('Bruce Wayne', 1, 1),
+  ('Alfred', 1, 2),
+  ('Rachel Dawes', 1, 4),
+  ('Commissioner Gordon', 1, 5),
+  ('Bruce Wayne', 2, 1),
+  ('Joker', 2, 6),
+  ('Harvey Dent', 2, 7),
+  ('Alfred', 2, 2),
+  ('Rachel Dawes', 2, 8),
+  ('Bruce Wayne', 3, 1),
+  ('Commissioner Gordon', 3, 5),
+  ('Bane', 3, 9),
+  ('John Blake', 3, 10),
+  ('Selina Kyle', 3, 11),
+  ('Ra''s Al Ghul', 1, 3);
 
 -- Prints a header for the movies output
 .print "Movies"
@@ -259,7 +247,9 @@ values
 -- The SQL statement for the movies output
 -- TODO!
 
-SELECT * FROM movies; 
+SELECT movies.title, movies.year, movies.rating, studios.name
+FROM movies
+INNER JOIN studios ON studios.id = movies.studio_id;
 
 -- Prints a header for the cast output
 .print ""
@@ -271,4 +261,8 @@ SELECT * FROM movies;
 -- The SQL statement for the cast output
 -- TODO!
 
-SELECT * FROM roles; 
+SELECT movies.title, actors.first_name, actors.last_name, roles.character_name
+FROM roles
+INNER JOIN actors ON actors.id = roles.actor_id
+INNER JOIN movies on movies.id = roles.movie_id
+ORDER BY movies.title;
